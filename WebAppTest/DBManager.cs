@@ -6,21 +6,9 @@ using Microsoft.Data.Sqlite;
 
 public class DBManager
 {
-    private SqliteConnection? connection = null;
-
-    private string HashPassword(string password)
-    {
-        using (var algoritm = SHA256.Create())
-        {
-            var bytes_hash = algoritm.ComputeHash(Encoding.Unicode.GetBytes(password));
-            return Encoding.Unicode.GetString(bytes_hash);
-        }
-    }
-
-    public bool ConnectToDB(string path)
+    public DBManager(string path)
     {
         Console.WriteLine("Connection to database...");
-
         try
         {
             connection = new SqliteConnection("Data Source=" + path);
@@ -29,17 +17,28 @@ public class DBManager
             if (connection.State != System.Data.ConnectionState.Open)
             {
                 Console.WriteLine("Failed!");
-                return false;
+                ConnectionBD = false;
+                return;
             }
         }
         catch (Exception exp)
         {
             Console.WriteLine(exp.Message);
-            return false;
+                ConnectionBD = false;
+            return;
         }
-
+        ConnectionBD = true;
         Console.WriteLine("Done!");
-        return true;
+    }
+    private SqliteConnection? connection = null;
+    public bool ConnectionBD {get; private set;}
+    private string HashPassword(string password)
+    {
+        using (var algoritm = SHA256.Create())
+        {
+            var bytes_hash = algoritm.ComputeHash(Encoding.Unicode.GetBytes(password));
+            return Encoding.Unicode.GetString(bytes_hash);
+        }
     }
 
     public void Disconnect()
@@ -83,7 +82,31 @@ public class DBManager
         else
             return false;
     }
+    public bool AddArr(string login, int[] ints)
+    {
+        if (!CheckConnect) return false;
+        string json = "null";
+        if(ints != null && ints.Length != 0)
+            json = System.Text.Json.JsonSerializer.Serialize(ints);
+        string REQUEST = $"UPDATE users SET array_data = '{json}' WHERE Login = '{login}';";
+        var command = new SqliteCommand(REQUEST, connection);
 
+        try
+        {
+            var reader = command.ExecuteReader();
+
+            if (reader.HasRows)
+                return true;
+            else
+                return false;
+        }
+        catch (Exception exp)
+        {
+            Console.WriteLine(exp.Message);
+            return false;
+        }
+    }
+    private bool CheckConnect => connection != null && connection.State == System.Data.ConnectionState.Open;
     public bool CheckUser(string login, string password)
     {
         if (null == connection)

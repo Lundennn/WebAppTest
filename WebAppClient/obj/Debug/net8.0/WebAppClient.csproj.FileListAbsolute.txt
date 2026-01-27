@@ -12,3 +12,18 @@
 /home/student/project/WebAppClient/obj/Debug/net8.0/WebAppClient.pdb
 /home/student/project/WebAppClient/obj/Debug/net8.0/WebAppClient.genruntimeconfig.cache
 /home/student/project/WebAppClient/obj/Debug/net8.0/ref/WebAppClient.dll
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\bin\Debug\net8.0\WebAppClient.exe
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\bin\Debug\net8.0\WebAppClient.deps.json
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\bin\Debug\net8.0\WebAppClient.runtimeconfig.json
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\bin\Debug\net8.0\WebAppClient.dll
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\bin\Debug\net8.0\WebAppClient.pdb
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\WebAppClient.GeneratedMSBuildEditorConfig.editorconfig
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\WebAppClient.AssemblyInfoInputs.cache
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\WebAppClient.AssemblyInfo.cs
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\WebAppClient.csproj.CoreCompileInputs.cache
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\WebAppClient.sourcelink.json
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\WebAppClient.dll
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\refint\WebAppClient.dll
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\WebAppClient.pdb
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\WebAppClient.genruntimeconfig.cache
+h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\ref\WebAppClient.dll

@@ -665,24 +665,32 @@
     ]
   },
   "packageFolders": {
-    "/home/student/.nuget/packages/": {}
+    "C:\\Users\\Вячеслав\\.nuget\\packages\\": {},
+    "H:\\!C#\\C# компоненты\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/student/project/WebAppTest/WebAppTest.csproj",
+      "projectUniqueName": "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppTest\\WebAppTest.csproj",
       "projectName": "WebAppTest",
-      "projectPath": "/home/student/project/WebAppTest/WebAppTest.csproj",
-      "packagesPath": "/home/student/.nuget/packages/",
-      "outputPath": "/home/student/project/WebAppTest/obj/",
+      "projectPath": "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppTest\\WebAppTest.csproj",
+      "packagesPath": "C:\\Users\\Вячеслав\\.nuget\\packages\\",
+      "outputPath": "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppTest\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "H:\\!C#\\C# компоненты\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/home/student/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Вячеслав\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -695,7 +703,13 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -733,7 +747,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.122/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -742,7 +756,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 3.1.6 has a known high severity vulnerability, https://github.com/advisories/GHSA-2cmq-823j-5qj8",
+      "message": "У пакета \"SixLabors.ImageSharp\" 3.1.6 есть известная уязвимость https://github.com/advisories/GHSA-2cmq-823j-5qj8 (уровень серьезности: высокий уровень)",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net8.0"
@@ -752,7 +766,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'SixLabors.ImageSharp' 3.1.6 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-rxmq-m78w-7wmc",
+      "message": "У пакета \"SixLabors.ImageSharp\" 3.1.6 есть известная уязвимость https://github.com/advisories/GHSA-rxmq-m78w-7wmc (уровень серьезности: средний уровень)",
       "libraryId": "SixLabors.ImageSharp",
       "targetGraphs": [
         "net8.0"

@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/home/student/project/WebAppClient/WebAppClient.csproj": {}
+    "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppClient\\WebAppClient.csproj": {}
   },
   "projects": {
-    "/home/student/project/WebAppClient/WebAppClient.csproj": {
+    "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppClient\\WebAppClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/student/project/WebAppClient/WebAppClient.csproj",
+        "projectUniqueName": "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppClient\\WebAppClient.csproj",
         "projectName": "WebAppClient",
-        "projectPath": "/home/student/project/WebAppClient/WebAppClient.csproj",
-        "packagesPath": "/home/student/.nuget/packages/",
-        "outputPath": "/home/student/project/WebAppClient/obj/",
+        "projectPath": "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppClient\\WebAppClient.csproj",
+        "packagesPath": "C:\\Users\\Вячеслав\\.nuget\\packages\\",
+        "outputPath": "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppClient\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "H:\\!C#\\C# компоненты\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/student/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Вячеслав\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,7 +39,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -53,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.122/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
