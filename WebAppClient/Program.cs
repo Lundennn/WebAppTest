@@ -7,208 +7,166 @@ using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
+using WebAppClient;
 
-CookieContainer cookies = new CookieContainer();
-HttpClientHandler handler = new HttpClientHandler();
-HttpClient client = new HttpClient(handler);
-handler.CookieContainer = cookies;
 
-bool LoginOnServer(string? username, string? password)
+partial class Program
 {
-    if (username == null || username.Length == 0 ||
-    password == null || password.Length == 0)
+    static public void Main(string[] args)
     {
-        return false;
-    }
+        Console.WriteLine("Ok!");
+        StartTest();
 
-    string request = "/login?login=" + username + "&password="+ password;
-    var response = client.PostAsync(request, null).Result;
-    if (response.IsSuccessStatusCode)
-    {
-        Console.WriteLine("Авторизация прошла успешно!");
-        IEnumerable<Cookie> response_Cookies = cookies.GetAllCookies();
-        foreach (Cookie cookie in response_Cookies)
+
+
+
+        const string DEFAULT_SERVER_URL = "http://localhost:5000";
+        Console.WriteLine("Введите URL сервера (http://localhost:5000 - по умолчанию)");
+
+        string? server_url = Console.ReadLine();
+
+        if (server_url == null || server_url.Length == 0)
         {
-            Console.WriteLine(cookie.Name + ": " + cookie.Value);
+            server_url = DEFAULT_SERVER_URL;
+
         }
-        return true;
-    }
-    else
-    {
-        Console.WriteLine("Не удалось авторизоваться");
-        return false;
-    }
-}
 
-string GetRandomWoParams()
-{
-    string request = "/random";
-    var response = client.GetAsync(request).Result;
-    if (response.IsSuccessStatusCode) {
-        return response.Content.ReadAsStringAsync().Result;
-    }
-    else
-    {
-        return "Данные не доступны";
-    }
-}
-
-string GetRandomWoJson(string _low, string _up)
-{
-    string request = "/random_params_json";
-
-    var json_data = new
-    {
-        low = int.Parse(_low),
-        up = int.Parse(_up)
-    };
-    string jsonBody = JsonSerializer.Serialize(json_data);
-    var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
-    var response = client.PostAsync(request, content).Result;
-    if (response.IsSuccessStatusCode) {
-        return response.Content.ReadAsStringAsync().Result;
-    }
-    else
-    {
-        return "Данные не доступны";
-    }
-}
-
-StartTest();
-const string DEFAULT_SERVER_URL = "http://localhost:5000";
-Console.WriteLine("Введите URL сервера (http://localhost:5000 - по умолчанию)");
-
-string? server_url = Console.ReadLine();
-
-if (server_url == null || server_url.Length == 0)
-{
-    server_url = DEFAULT_SERVER_URL;
-
-}
-
-try
-{
-    client.BaseAddress = new Uri(server_url);
-
-    Console.WriteLine("======================================");
-    Console.WriteLine("              МЕНЮ ВХОДА              ");
-    Console.WriteLine("======================================");
-    Console.WriteLine("   1. Авторизоваться                  ");
-    Console.WriteLine("   2. Зарегистрироваться              ");
-    Console.WriteLine("   0. Выход                           ");
-    Console.WriteLine("======================================");
-
-    string? menu_login_value = Console.ReadLine();
-    Console.Clear();
-    if (menu_login_value == "1")
-    {
-        Console.WriteLine("======================================");
-        Console.WriteLine("            Авторизация...            ");
-        Console.WriteLine("======================================");
-        Console.Write("   Введите логин: ");
-        string? username = Console.ReadLine();
-        Console.Write("   Введите пароль: ");
-        string? password = Console.ReadLine();
-        Console.WriteLine("======================================");
-
-        if (!LoginOnServer(username, password))
+        try
         {
-            Console.WriteLine("Не верный логин/пароль, попробуйте снова...");
+            Console.WriteLine("======================================");
+            Console.WriteLine("              МЕНЮ ВХОДА              ");
+            Console.WriteLine("======================================");
+            Console.WriteLine("   1. Авторизоваться                  ");
+            Console.WriteLine("   2. Зарегистрироваться              ");
+            Console.WriteLine("   0. Выход                           ");
+            Console.WriteLine("======================================");
+
+            string? menu_login_value = Console.ReadLine();
+            Console.Clear();
+            if (menu_login_value == "1")
+            {
+                Console.WriteLine("======================================");
+                Console.WriteLine("            Авторизация...            ");
+                Console.WriteLine("======================================");
+                Console.Write("   Введите логин: ");
+                string? username = Console.ReadLine();
+                Console.Write("   Введите пароль: ");
+                string? password = Console.ReadLine();
+                Console.WriteLine("======================================");
+
+                /*
+                if (!LoginOnServer(null!, username, password))
+                {
+                    Console.WriteLine("Не верный логин/пароль, попробуйте снова...");
+                    return;
+                }
+                */
+
+                //Console.WriteLine(GetRandomWoParams());
+
+                string? low = Console.ReadLine();
+                string? up = Console.ReadLine();
+                //Console.WriteLine(GetRandomWoJson(low, up));
+            }
+            if (menu_login_value == "2") { }
+            if (menu_login_value == "0")
+            {
+                return;
+            }
+        }
+        catch (Exception exp)
+        {
+            Console.WriteLine("Ошибка: " + exp);
+        }
+
+    }
+
+
+
+
+
+
+
+    static void StartTest()
+    {
+        const string def_server = "http://localhost:5000";
+        var api = new API_server(new Uri(def_server));
+
+
+        const string username = "user222";
+        const string password = "password222";
+
+        var r = api.LoginOnServer(username, password);
+        if (!r.Successful)
+        {
+            Console.WriteLine($"Error: {r.ErrorData!.Message}");
             return;
         }
+        Console.WriteLine("Мы зачикинились)\n");
 
-        Console.WriteLine(GetRandomWoParams());
+        var res = api.RandomGenerateArray(88, 99, 5);
+        Console.WriteLine("Random generate arr operation is " + (res.Successful? "successful" : "error"));
+        Console.WriteLine(res.Answer);
+        Console.WriteLine("Мы зачикинились)\n");
 
-        string? low = Console.ReadLine();
-        string? up = Console.ReadLine();
-        Console.WriteLine(GetRandomWoJson(low, up));    
+        string text = "88 99 5 33 44";
+        res = api.WriteGenerateArray(text);
+        Console.WriteLine("Write arr operation is " + (res.Successful ? "successful" : "error"));
+        Console.WriteLine(res.Answer);
+        Console.WriteLine("Мы зачикинились)\n");
+
+        //const int len = 5;
+        //var rand = $"{new Random().Next(0, 10^len)}".PadRight(len, '0');
+        //string username_rand = "user_" + rand;
+        //string password_rand = "pwd_" + rand;
+
+        //r = api.SingUpOnServer(username, password);
+        //if (!r.Successful)
+        //{
+        //    Console.WriteLine($"Error: {r.ErrorData!.Message}");
+        //    return;
+        //}
+        //Console.WriteLine("Мы зачикинили нового юзера)");
+
     }
-    if (menu_login_value == "2") {}
-    if (menu_login_value == "0")
+    /*
+    static string GetRandomWoParams()
     {
-        return;
+        string request = "/random";
+        var response = client.GetAsync(request).Result;
+        if (response.IsSuccessStatusCode)
+        {
+            return response.Content.ReadAsStringAsync().Result;
+        }
+        else
+        {
+            return "Данные не доступны";
+        }
     }
-}
-catch (Exception exp)
-{
-    Console.WriteLine("Ошибка: " + exp);
-}
 
+    static string GetRandomWoJson(string _low, string _up)
+    {
+        string request = "/random_params_json";
 
+        var json_data = new
+        {
+            low = int.Parse(_low),
+            up = int.Parse(_up)
+        };
+        string jsonBody = JsonSerializer.Serialize(json_data);
+        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
-void StartTest()
-{
-    const string def_server = "http://localhost:5000";
-    client.BaseAddress = new Uri(def_server);
-    const string username = "user222";
-    const string password = "password222";
+        var response = client.PostAsync(request, content).Result;
+        if (response.IsSuccessStatusCode)
+        {
+            return response.Content.ReadAsStringAsync().Result;
+        }
+        else
+        {
+            return "Данные не доступны";
+        }
+    }
     
-    if (!LoginOnServer(username, password))
-    {
-        Console.WriteLine("!!!Error connect!!!");
-        return;
-    }
-    // var res = PostRandomGenerateArray(88, 99, 5) ? "successful" : "error";
-    string text = "88 99 5 33 44";
-    var res = PostWriteGenerateArray(text) ? "successful" : "error";
-    Console.WriteLine(res);
+
+    */
 }
-
-bool PostRandomGenerateArray(int _low, int _up, int _count) //Радомная генерация массива
-{
-    string request = "/random_generate_array";
-
-    var json_data = new
-    {
-        low = _low,
-        up = _up,
-        count = _count
-    };
-    string jsonBody = JsonSerializer.Serialize(json_data);
-    var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
-    var response = client.PostAsync(request, content).Result;
-    if (!response.IsSuccessStatusCode) return false;
-    var r = response.Content.ReadAsStringAsync().Result;
-    Console.WriteLine(r);
-    return true;
-}
-
-bool PostWriteGenerateArray(string _start_array) //Ручная генерация массива
-{
-    string request = "/write_generate_array";
-
-    var json_data = new
-    {
-        start_array = _start_array
-    };
-    string jsonBody = JsonSerializer.Serialize(json_data);
-    var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
-    var response = client.PostAsync(request, content).Result;
-    if (!response.IsSuccessStatusCode) return false;
-    var r = response.Content.ReadAsStringAsync().Result;
-    Console.WriteLine(r);
-    return true;
-}
-
-// bool Post_RandNewArr(int _low, int _up, int _count)
-// {
-//     string request = "/test";
-
-//     var json_data = new
-//     {
-//         low = _low,
-//         up = _up,
-//         count = _count
-//     };
-//     string jsonBody = JsonSerializer.Serialize(json_data);
-//     var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
-//     var response = client.PostAsync(request, content).Result;
-//     if (!response.IsSuccessStatusCode) return false;
-//     var r = response.Content.ReadAsStringAsync().Result;
-//     Console.WriteLine(r);
-//     return true;
-// }

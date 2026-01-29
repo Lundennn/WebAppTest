@@ -27,3 +27,17 @@ h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\
 h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\WebAppClient.pdb
 h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\WebAppClient.genruntimeconfig.cache
 h:\!Вяч\WEB Development\Course work\WebAppTest\WebAppClient\obj\Debug\net8.0\ref\WebAppClient.dll
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\bin\Debug\net8.0\WebAppClient.exe
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\bin\Debug\net8.0\WebAppClient.deps.json
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\bin\Debug\net8.0\WebAppClient.runtimeconfig.json
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\bin\Debug\net8.0\WebAppClient.dll
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\bin\Debug\net8.0\WebAppClient.pdb
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\obj\Debug\net8.0\WebAppClient.GeneratedMSBuildEditorConfig.editorconfig
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\obj\Debug\net8.0\WebAppClient.AssemblyInfoInputs.cache
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\obj\Debug\net8.0\WebAppClient.AssemblyInfo.cs
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\obj\Debug\net8.0\WebAppClient.csproj.CoreCompileInputs.cache
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\obj\Debug\net8.0\WebAppClient.dll
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\obj\Debug\net8.0\refint\WebAppClient.dll
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\obj\Debug\net8.0\WebAppClient.pdb
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\obj\Debug\net8.0\WebAppClient.genruntimeconfig.cache
+S:\NextCloud\_TUSUR\_GROUP\_Meloch\WebAppTest-main\WebAppClient\obj\Debug\net8.0\ref\WebAppClient.dll

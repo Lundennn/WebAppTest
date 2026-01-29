@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Web_Meloch",
+    "Projects": [
+      {
+        "Path": "WebAppClient\\WebAppClient.csproj",
+        "Action": "Start",
+        "DebugTarget": "WebAppClient"
+      },
+      {
+        "Path": "WebAppTest\\WebAppTest.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      }
+    ]
+  }
+]
