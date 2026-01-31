@@ -62,6 +62,42 @@ namespace WebAppClient
                 return AnswerServer<HttpResponseMessage>.Error(ex);
             }
         }
+        
+        /// <summary>
+        /// Post request
+        /// </summary>
+        /// <param name="uri">URI</param>
+        /// <param name="content"></param>
+        /// <returns>Ответ от сервера</returns>
+        public AnswerServer<HttpResponseMessage> Get(string uri, CancellationToken? token = null)
+        {
+            try
+            {
+                return GetAsync(uri, token).Result;
+            }
+            catch (Exception ex)
+            {
+                return AnswerServer<HttpResponseMessage>.Error(ex);
+            }
+        }
+        /// <summary>
+        /// async POST request
+        /// </summary>
+        /// <param name="uri">URI</param>
+        /// <param name="content"></param>
+        /// <returns>Ответ от сервера</returns>
+        public async Task<AnswerServer<HttpResponseMessage>> GetAsync(string uri, CancellationToken? token = null)
+        {
+            try
+            {
+                var r = await client.GetAsync(uri, token ?? CancellationToken.None);
+                return AnswerServer<HttpResponseMessage>.Ok(r);
+            }
+            catch (Exception ex)
+            {
+                return AnswerServer<HttpResponseMessage>.Error(ex);
+            }
+        }
         public AnswerServer<string> ReadAnswerString(HttpContent httpContent)
         {
             try

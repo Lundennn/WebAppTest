@@ -60,7 +60,7 @@ namespace WebAppTest
         {
             if (!ConnectionBD) return false;
 
-            string REQUEST = $"UPDATE users SET Password = '{HashPassword(pwd)}' WHERE login = '{login}';";
+            string REQUEST = $"UPDATE users SET password = '{HashPassword(pwd)}' WHERE login = '{login}';";
             var command = new SqliteCommand(REQUEST, connection);   
             try
             {
@@ -80,7 +80,7 @@ namespace WebAppTest
             if (connection.State != System.Data.ConnectionState.Open)
                 return false;
 
-            string REQUEST = "INSERT INTO users (Login, Password) VALUES ('" + login + "', '" + HashPassword(password) + "')";
+            string REQUEST = "INSERT INTO users (login, password, array_data, history) VALUES ('" + login + "', '" + HashPassword(password) + "' , 'null', 'null')";
             var command = new SqliteCommand(REQUEST, connection);
 
             int result = 0;
@@ -91,7 +91,7 @@ namespace WebAppTest
             }
             catch (Exception exp)
             {
-                Console.WriteLine(exp.Message);
+                Console.WriteLine("94" + exp.Message);
                 return false;
             }
 
@@ -107,7 +107,7 @@ namespace WebAppTest
             string json = "null";
             if(ints != null && ints.Length != 0)
                 json = System.Text.Json.JsonSerializer.Serialize(ints);
-            string REQUEST = $"UPDATE users SET array_data = '{json}' WHERE Login = '{login}';";
+            string REQUEST = $"UPDATE users SET array_data = '{json}' WHERE login = '{login}';";
             var command = new SqliteCommand(REQUEST, connection);
 
             try
@@ -130,7 +130,7 @@ namespace WebAppTest
         {
             if (!CheckConnect) return false;
 
-            string REQUEST = $"UPDATE users SET array_data = 'null' WHERE Login = '{login}';";
+            string REQUEST = $"UPDATE users SET array_data = 'null' WHERE login = '{login}';";
             var command = new SqliteCommand(REQUEST, connection);
 
             try
@@ -159,7 +159,7 @@ namespace WebAppTest
             if (connection.State != System.Data.ConnectionState.Open)
                 return false;
 
-            string REQUEST = "SELECT Login,Password FROM users WHERE Login='" + login + "' AND Password='" + HashPassword(password) + "'";
+            string REQUEST = "SELECT login, password FROM users WHERE login='" + login + "' AND password='" + HashPassword(password) + "'";
             var command = new SqliteCommand(REQUEST, connection);
 
             try
@@ -180,7 +180,7 @@ namespace WebAppTest
 
         public int[]? GiveArray(string login)
         {
-            string REQUEST = "SELECT array_data FROM Users WHERE Login='" + login + "'";
+            string REQUEST = "SELECT array_data FROM Users WHERE login='" + login + "'";
             var command = new SqliteCommand(REQUEST, connection);
             try
             {
@@ -199,8 +199,9 @@ namespace WebAppTest
                 return null;
             }
         }
-        public bool CheckUser(string login)
+        public bool CheckUser(string? login)
         {
+            if(string.IsNullOrEmpty(login)) return false;
             string REQUEST = "SELECT 1 FROM users WHERE login = '" + login + "' LIMIT 1;";
             var command = new SqliteCommand(REQUEST, connection);
             try
@@ -234,7 +235,7 @@ namespace WebAppTest
         public bool UpDateHistory(string login, Record record)
         {
             if (!CheckConnect) return false;
-            string REQUEST = "SELECT history FROM Users WHERE Login='" + login + "' LIMIT 1;";
+            string REQUEST = "SELECT history FROM Users WHERE login='" + login + "';";
             var command = new SqliteCommand(REQUEST, connection);
             List<Record> all_records;
             try
@@ -258,7 +259,7 @@ namespace WebAppTest
             }
             all_records.Add(record);
             string new_json = System.Text.Json.JsonSerializer.Serialize(all_records)!;
-            REQUEST = $"UPDATE users SET history = '{new_json}' WHERE Login = '{login}'  LIMIT 1;";
+            REQUEST = $"UPDATE users SET history = '{new_json}' WHERE login = '{login}';";
             command = new SqliteCommand(REQUEST, connection);
             try
             {
@@ -274,10 +275,10 @@ namespace WebAppTest
                 return false;
             }
         }
-        public string[]? GetHistory(string login)
+        public Record[]? GetHistory(string login)
         {
             if (!CheckConnect) return null;
-            string REQUEST = "SELECT history FROM Users WHERE Login='" + login + "' LIMIT 1;";
+            string REQUEST = "SELECT history FROM Users WHERE login='" + login + "';";
             var command = new SqliteCommand(REQUEST, connection);
             try
             {
@@ -290,7 +291,8 @@ namespace WebAppTest
                         return null;//nuint
                     }
                     var history = System.Text.Json.JsonSerializer.Deserialize<List<Record>>(json!);
-                    return history?.Select(item => item.ToString()).ToArray();
+                    //return history?.Select(item => item.ToString()).ToArray();
+                    return history?.ToArray();
                 }
                 else
                     return null;
@@ -305,17 +307,12 @@ namespace WebAppTest
         {
             if (!CheckConnect) return false;
 
-            string REQUEST = $"UPDATE users SET history = 'null' WHERE Login = '{login}' LIMIT 1;";
+            string REQUEST = $"UPDATE users SET history = 'null' WHERE login = '{login}';";
             var command = new SqliteCommand(REQUEST, connection);
 
             try
             {
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                    return true;
-                else
-                    return false;
+                return command.ExecuteNonQuery()>0;
             }
             catch (Exception exp)
             {

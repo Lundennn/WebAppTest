@@ -17,7 +17,7 @@ namespace WebAppTest
         /// </summary>
         private DBManager db;
         /// <summary>
-        /// Сеализация объекта
+        /// Сериализация объекта
         /// </summary>
         /// <param name="DB_PATH">Путь до БД</param>
         public WebAdapter(string DB_PATH)
@@ -44,6 +44,7 @@ namespace WebAppTest
             db.UpDateHistory(username, record);
             return Results.Ok();
         }
+        
         public IResult NewPassword(string? login, string new_password)
         {
             if(string.IsNullOrEmpty(login)) return Results.Conflict("Login invalid");
@@ -62,8 +63,10 @@ namespace WebAppTest
                 return Results.Conflict();
             }
         }
+
         public IResult Signup(string login, string password)
         {
+            if(db.CheckUser(login)) return Results.Problem("Ошибка регистрации пользователь уже существует " + login);
             if (db.AddUser(login, password))
             {
                 var record = new DBManager.Record("POST", true, "New user");
@@ -73,13 +76,26 @@ namespace WebAppTest
             else
                 return Results.Problem("Ошибка регистрации пользователя " + login);
         }
+
         public IResult Current_user(HttpContext context)
         {
             if (context.User.Identity == null)
                 return Results.BadRequest("Имя не найдено");
             return Results.Ok(context.User.Identity.Name);
         }
-
+        public IResult Get_History(string? login)
+        {
+            if (!db.CheckUser(login)) return Results.Conflict("Login invalid");
+            var res = db.GetHistory(login!);
+            return Results.Ok(res);
+        }
+        public IResult Del_History(string? login)
+        {
+            if (!db.CheckUser(login)) return Results.Conflict("Login invalid");
+            var res = db.DelHistory(login!);
+            return Results.Ok(res);
+        }
+        
         public IResult ArrayGeneration(string? login, int low, int up, int count) //Генерация массива 
         {
             if (string.IsNullOrEmpty(login)) return Results.Conflict();
@@ -246,6 +262,75 @@ namespace WebAppTest
 
             db.AddArr(login, array);
             return Results.Ok();
+        }
+
+        public IResult AddValueFinish(string? login, int value) //Добавление элемента в конец массива
+        {
+            if (string.IsNullOrEmpty(login))
+                return Results.Conflict("Ошибка: Логина");
+            var res = db.GiveArray(login);
+
+            if (res == null) 
+            {
+                db.AddArr(login, [value]);
+                return Results.Ok();
+            }
+
+            int[] array = new int[res.Length + 1];
+            
+            for (int i = 0; i < array.Length - 1; i++)
+                array[i] = res[i];
+
+            array[res.Length] = value;
+            db.AddArr(login, array);
+            return Results.Ok();
+        }
+
+        public IResult AddValueIndex(string? login, int value, int index) //Добавление элемента в конец массива
+        {
+            if (string.IsNullOrEmpty(login))
+                return Results.Conflict("Ошибка: Логина");
+            var res = db.GiveArray(login);
+
+            if (res == null) 
+            {
+                db.AddArr(login, [value]);
+                return Results.Ok();
+            }
+
+            if (0 > index)
+                index = -1;
+
+            if (res.Length -1 < index)
+                index = res.Length - 1;
+
+            int[] array = new int[res.Length + 1];
+            int j = 0;
+            
+            for (int i = 0; i < array.Length; i++)
+                if (i == index + 1)    
+                {
+                    array[i] = value;
+                }
+                else
+                {
+                    array[i] = res[j];
+                    j++;                     
+                }
+
+
+            db.AddArr(login, array);
+            return Results.Ok();
+        }
+
+        public IResult ArrayGive(string? login)
+        {
+            var array = db.GiveArray(login);
+            
+            if (array == null)
+                return Results.Conflict("Ошибка: массив пуст");
+
+            return Results.Ok(array);
         }
     }
 }

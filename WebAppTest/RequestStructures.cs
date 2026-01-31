@@ -31,6 +31,15 @@
         }
 
         /// <summary>
+        /// Для добавления элемента в массив после указанного индекса
+        /// </summary>
+        public struct Array_Add_Index
+        {
+            public int value { get; set; }
+            public int index { get; set; }
+        }
+
+        /// <summary>
         /// Данные пользователя
         /// </summary>
         public struct DataLogin

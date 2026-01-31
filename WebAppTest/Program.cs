@@ -33,7 +33,7 @@ namespace WebAppTest
             app.UseAuthorization();
 
             #region  REQUEST
-            app.MapGet("/", () => "Ask random to generate random value");
+            app.MapGet("/", () => "Comb Sorting Client-Server Application");
             //Запрос для входа в систему
             app.MapPost("/login", ([FromBody] DataLogin data_login, HttpContext context)
             => rg.Login(data_login.username, data_login.password, context));
@@ -47,6 +47,14 @@ namespace WebAppTest
             app.MapGet("/current_user", [Authorize] (HttpContext context)
             => rg.Current_user(context));
             
+
+            //Запрос на получение истории запросов
+            app.MapGet("/get_history", [Authorize] (HttpContext context)
+            => rg.Get_History(context.User.Identity?.Name));
+            //Запрос на отчистку истории запросов
+            app.MapDelete("/del_history", [Authorize] (HttpContext context)
+            => rg.Del_History(context.User.Identity?.Name));
+
             //Сгенерировать случайный массив
             app.MapPost("/random_generate_array", [Authorize] ([FromBody] Random_Generate_Array value, HttpContext context)
             => rg.ArrayGeneration(context.User.Identity?.Name, value.low, value.up, value.count)); 
@@ -54,6 +62,9 @@ namespace WebAppTest
             app.MapPost("/write_generate_array", [Authorize] ([FromBody] Write_Generate_Array value, HttpContext context)
             => rg.ArrayWrite(context.User.Identity?.Name, value.start_array));
 
+            //Просмотр массива
+            app.MapGet("/give_array", [Authorize] (HttpContext context)
+            => rg.ArrayGive(context.User.Identity?.Name));
             //Получить отсортированный массив
             app.MapGet("/give_combsort", [Authorize] (HttpContext context)
             => rg.ArrayCombSort(context.User.Identity?.Name));
@@ -66,9 +77,15 @@ namespace WebAppTest
             //Удалить массив
             app.MapDelete("/del_array", [Authorize] (HttpContext context)
             => rg.ArrayDelete(context.User.Identity?.Name)); 
+            //Добавить элемент в начало массива
             app.MapPatch("/add_value_start", [Authorize] ([FromBody] int value, HttpContext context)
             => rg.AddValueStart(context.User.Identity?.Name, value));
-            
+            //Добавить элемент в конец массива
+            app.MapPatch("/add_value_finish", [Authorize] ([FromBody] int value, HttpContext context)
+            => rg.AddValueFinish(context.User.Identity?.Name, value));
+            //Добавить элемент после указанного индекса
+            app.MapPatch("/add_value_index", [Authorize] ([FromBody] Array_Add_Index value, HttpContext context)
+            => rg.AddValueIndex(context.User.Identity?.Name, value.value, value.index));
             #endregion REQUEST
 
 
