@@ -65,24 +65,27 @@ namespace WebAppTest
             //Просмотр массива
             app.MapGet("/give_array", [Authorize] (HttpContext context)
             => rg.ArrayGive(context.User.Identity?.Name));
+
             //Получить отсортированный массив
             app.MapGet("/give_combsort", [Authorize] (HttpContext context)
             => rg.ArrayCombSort(context.User.Identity?.Name));
             //Получить отсортированную часть массива от индекса до индекса
-            app.MapGet("/give_combsort_index", [Authorize] ([FromBody] Array_Index value, HttpContext context)
-            => rg.ArrayCombSortIndex(context.User.Identity?.Name, value.start_index, value.finish_index));
+            app.MapGet("/give_combsort_index", [Authorize] (int start_index, int finish_index, HttpContext context)
+            => rg.ArrayCombSortIndex(context.User.Identity?.Name, start_index, finish_index));
             //Отсортировать массив
             app.MapPost("/write_combsort", [Authorize] (HttpContext context)
             => rg.ArrayCombSortWrite(context.User.Identity?.Name));
+
             //Удалить массив
             app.MapDelete("/del_array", [Authorize] (HttpContext context)
             => rg.ArrayDelete(context.User.Identity?.Name)); 
+            
             //Добавить элемент в начало массива
-            app.MapPatch("/add_value_start", [Authorize] ([FromBody] int value, HttpContext context)
-            => rg.AddValueStart(context.User.Identity?.Name, value));
+            app.MapPatch("/add_value_start", [Authorize] ([FromBody] Array_Add_Value value, HttpContext context)
+            => rg.AddValueStart(context.User.Identity?.Name, value.value));
             //Добавить элемент в конец массива
-            app.MapPatch("/add_value_finish", [Authorize] ([FromBody] int value, HttpContext context)
-            => rg.AddValueFinish(context.User.Identity?.Name, value));
+            app.MapPatch("/add_value_finish", [Authorize] ([FromBody] Array_Add_Value value, HttpContext context)
+            => rg.AddValueFinish(context.User.Identity?.Name, value.value));
             //Добавить элемент после указанного индекса
             app.MapPatch("/add_value_index", [Authorize] ([FromBody] Array_Add_Index value, HttpContext context)
             => rg.AddValueIndex(context.User.Identity?.Name, value.value, value.index));

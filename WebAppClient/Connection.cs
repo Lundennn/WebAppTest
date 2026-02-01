@@ -28,7 +28,43 @@ namespace WebAppClient
         }
 
         /// <summary>
-        /// Post request
+        /// GET request
+        /// </summary>
+        /// <param name="uri">URI</param>
+        /// <param name="token">token</param>
+        /// <returns>Ответ от сервера</returns>
+        public AnswerServer<HttpResponseMessage> Get(string uri, CancellationToken? token = null)
+        {
+            try
+            {
+                return GetAsync(uri, token).Result;
+            }
+            catch (Exception ex)
+            {
+                return AnswerServer<HttpResponseMessage>.Error(ex);
+            }
+        }
+        
+        /// <summary>
+        /// async GET request
+        /// </summary>
+        /// <param name="uri">URI</param>
+        /// <param name="token">token</param>
+        /// <returns>Ответ от сервера</returns>
+        public async Task<AnswerServer<HttpResponseMessage>> GetAsync(string uri, CancellationToken? token = null)
+        {
+            try
+            {
+                var r = await client.GetAsync(uri, token ?? CancellationToken.None);
+                return AnswerServer<HttpResponseMessage>.Ok(r);
+            }
+            catch (Exception ex)
+            {
+                return AnswerServer<HttpResponseMessage>.Error(ex);
+            }
+        }
+        /// <summary>
+        /// POST request
         /// </summary>
         /// <param name="uri">URI</param>
         /// <param name="content"></param>
@@ -64,16 +100,28 @@ namespace WebAppClient
         }
         
         /// <summary>
-        /// Post request
+        /// PATCH request
         /// </summary>
         /// <param name="uri">URI</param>
         /// <param name="content"></param>
         /// <returns>Ответ от сервера</returns>
-        public AnswerServer<HttpResponseMessage> Get(string uri, CancellationToken? token = null)
+        public AnswerServer<HttpResponseMessage> Patch(string uri, HttpContent? content = null)
+        {
+            try { return PatchAsync(uri, content).Result; }
+            catch (Exception ex) { return AnswerServer<HttpResponseMessage>.Error(ex); }
+        }
+        /// <summary>
+        /// async PATCH request
+        /// </summary>
+        /// <param name="uri">URI</param>
+        /// <param name="content"></param>
+        /// <returns>Ответ от сервера</returns>
+        public async Task<AnswerServer<HttpResponseMessage>> PatchAsync(string uri, HttpContent? content = null)
         {
             try
             {
-                return GetAsync(uri, token).Result;
+                var r = await client.PatchAsync(uri, content);
+                return AnswerServer<HttpResponseMessage>.Ok(r);
             }
             catch (Exception ex)
             {
@@ -81,16 +129,26 @@ namespace WebAppClient
             }
         }
         /// <summary>
-        /// async POST request
+        /// DELETE request
         /// </summary>
         /// <param name="uri">URI</param>
-        /// <param name="content"></param>
+        /// <param name="token">token</param>
+        public AnswerServer<HttpResponseMessage> Delete(string uri, CancellationToken? token = null)
+        {
+            try { return DeleteAsync(uri, token).Result; }
+            catch (Exception ex) { return AnswerServer<HttpResponseMessage>.Error(ex); }
+        }
+        /// <summary>
+        /// async DELETE request
+        /// </summary>
+        /// <param name="uri">URI</param>
+        /// <param name="token">token</param>
         /// <returns>Ответ от сервера</returns>
-        public async Task<AnswerServer<HttpResponseMessage>> GetAsync(string uri, CancellationToken? token = null)
+        public async Task<AnswerServer<HttpResponseMessage>> DeleteAsync(string uri, CancellationToken? token = null)
         {
             try
             {
-                var r = await client.GetAsync(uri, token ?? CancellationToken.None);
+                var r = await client.DeleteAsync(uri, token ?? CancellationToken.None);
                 return AnswerServer<HttpResponseMessage>.Ok(r);
             }
             catch (Exception ex)

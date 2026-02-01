@@ -31,6 +31,14 @@
         }
 
         /// <summary>
+        /// Для добавления элемента в массив
+        /// </summary>
+        public struct Array_Add_Value
+        {
+            public int value { get; set; }
+        }
+
+        /// <summary>
         /// Для добавления элемента в массив после указанного индекса
         /// </summary>
         public struct Array_Add_Index
@@ -54,6 +62,7 @@
         {
             public string new_password { get; set; }
         }
+
         //struct Borders
         //{
         //    public int low { get; set; }

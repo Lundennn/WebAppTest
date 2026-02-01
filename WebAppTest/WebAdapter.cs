@@ -107,6 +107,8 @@ namespace WebAppTest
 
             db.AddArr(login, res);
 
+            var record = new DBManager.Record("POST", true, "Generate array");
+            db.UpDateHistory(login, record);
             return Results.Ok(res);
         }
 
@@ -128,11 +130,11 @@ namespace WebAppTest
                     res[i] = 0;
                 }
             }
-            // Console.Write($"Res:|");
-            // Console.WriteLine(string.Join(", ", res) + "|");
 
             db.AddArr(login, res);
 
+            var record = new DBManager.Record("POST", true, "Write array");
+            db.UpDateHistory(login, record);
             return Results.Ok(res);
         }
 
@@ -143,7 +145,11 @@ namespace WebAppTest
             var array = db.GiveArray(login);
 
             if (array == null)
+            {
+                var e_record = new DBManager.Record("POST", false, "Get sort array, null array");
+                db.UpDateHistory(login, e_record);
                 return Results.Conflict("Ошибка: массив пуст");
+            }
 
             
             double factor = 1.2473309;
@@ -163,18 +169,23 @@ namespace WebAppTest
                 step = (int)(step / factor);
             }
             
+            var record = new DBManager.Record("POST", true, "Get sort array");
+            db.UpDateHistory(login, record);
             return Results.Ok(array);
         }
 
-        public IResult ArrayCombSortIndex(string? login, int start_index, int finish_index) //Получить отсортированный массив
+        public IResult ArrayCombSortIndex(string? login, int start_index, int finish_index) //Получить отсортированный массив в промежутке индексов
         {
             if (string.IsNullOrEmpty(login))
                 return Results.Conflict("Ошибка: Логина");
             var array = db.GiveArray(login);
 
-            if (array == null)
+            if (array == null) {
+                var e_record = new DBManager.Record("POST", false, "Get sort array, null array");
+                db.UpDateHistory(login, e_record);
                 return Results.Conflict("Ошибка: массив пуст");
-            
+            }
+
             double factor = 1.2473309;
             int step = array.Length - 1;
 
@@ -200,6 +211,8 @@ namespace WebAppTest
                 newArray[i] = array[start_index + i];
             }
 
+            var record = new DBManager.Record("POST", true, "Get array");
+            db.UpDateHistory(login, record);
             return Results.Ok(newArray);
         }
 
@@ -209,8 +222,11 @@ namespace WebAppTest
                 return Results.Conflict("Ошибка: Логина");
             var array = db.GiveArray(login);
 
-            if (array == null)
+            if (array == null) {
+                var e_record = new DBManager.Record("POST", false, "Get sort array, null array");
+                db.UpDateHistory(login, e_record);
                 return Results.Conflict("Ошибка: массив пуст");
+            }
             
             double factor = 1.2473309;
             int step = array.Length - 1;
@@ -230,6 +246,8 @@ namespace WebAppTest
             }
 
             db.AddArr(login, array);
+            var record = new DBManager.Record("POST", true, "Get sort array in data base");
+            db.UpDateHistory(login, record);
             return Results.Ok();
         }
 
@@ -239,6 +257,8 @@ namespace WebAppTest
                 return Results.Conflict("Ошибка: Логина");
             db.DelArr(login);
             
+            var record = new DBManager.Record("POST", true, "delete array");
+            db.UpDateHistory(login, record);
             return Results.Ok();
         }
 
@@ -251,6 +271,8 @@ namespace WebAppTest
             if (res == null) 
             {
                 db.AddArr(login, [value]);
+                var e_record = new DBManager.Record("POST", true, "add value in array");
+                db.UpDateHistory(login, e_record);
                 return Results.Ok();
             }
 
@@ -261,6 +283,8 @@ namespace WebAppTest
                 array[i] = res[i-1];
 
             db.AddArr(login, array);
+            var record = new DBManager.Record("POST", true, "add value in array");
+            db.UpDateHistory(login, record);
             return Results.Ok();
         }
 
@@ -273,6 +297,8 @@ namespace WebAppTest
             if (res == null) 
             {
                 db.AddArr(login, [value]);
+                var e_record = new DBManager.Record("POST", true, "add value in array");
+                db.UpDateHistory(login, e_record);
                 return Results.Ok();
             }
 
@@ -283,10 +309,12 @@ namespace WebAppTest
 
             array[res.Length] = value;
             db.AddArr(login, array);
+            var record = new DBManager.Record("POST", true, "add value in array");
+            db.UpDateHistory(login, record);
             return Results.Ok();
         }
 
-        public IResult AddValueIndex(string? login, int value, int index) //Добавление элемента в конец массива
+        public IResult AddValueIndex(string? login, int value, int index) //Добавление элемента после указанного индекса в массив
         {
             if (string.IsNullOrEmpty(login))
                 return Results.Conflict("Ошибка: Логина");
@@ -295,6 +323,8 @@ namespace WebAppTest
             if (res == null) 
             {
                 db.AddArr(login, [value]);
+                var e_record = new DBManager.Record("POST", true, "add value in array");
+                db.UpDateHistory(login, e_record);
                 return Results.Ok();
             }
 
@@ -318,18 +348,21 @@ namespace WebAppTest
                     j++;                     
                 }
 
-
             db.AddArr(login, array);
+            var record = new DBManager.Record("POST", true, "add value in array");
+            db.UpDateHistory(login, record);
             return Results.Ok();
         }
 
         public IResult ArrayGive(string? login)
         {
-            var array = db.GiveArray(login);
+            var array = db.GiveArray(login!);
             
             if (array == null)
                 return Results.Conflict("Ошибка: массив пуст");
 
+            var record = new DBManager.Record("POST", true, "give array");
+            db.UpDateHistory(login, record);
             return Results.Ok(array);
         }
     }

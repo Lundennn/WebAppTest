@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -26,13 +27,10 @@ namespace WebAppClient
             var content = GetContentFromJSON(json);
             //Тут синхронно выполняется Post запрос к серверу
             var answer_server = connection.Post(request, content);
-            //Тут ловятся ошибки об проблемах в соединении с сервером
-            if (!answer_server.Successful)
-                return AnswerServer<bool>.Error(answer_server);//Тут эта ошибка просто отправляется как результат
-            //Тут ловится ошибка связанная с неверным кодом ответа, всё что не 200 (успех - successeful)
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                //Тут мы должны лапками об этом написать, и указать какой код прислал сервер
-                return AnswerServer<bool>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
+
+            var checkErr = CheckError<bool>(answer_server);
+            if (checkErr != null) return checkErr;
+
             //Тут мы выводим на экран усе куки
             Console.WriteLine("All cookies:");
             foreach (var item in connection.GetAllCookies())
@@ -48,11 +46,8 @@ namespace WebAppClient
             var json = new { username = username, password = password };
             var content = GetContentFromJSON(json);
             var answer_server = connection.Post(request, content);
-            if (!answer_server.Successful)
-                return AnswerServer<bool>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<bool>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            return AnswerServer<bool>.Ok(true);
+            var checkErr = CheckError<bool>(answer_server);
+            return checkErr??AnswerServer<bool>.Ok(true);
         }
 
         public AnswerServer<string> RandomGenerateArray(int low, int up, int count)
@@ -62,12 +57,8 @@ namespace WebAppClient
             var json = new { low = low, up = up, count = count };
             var content = GetContentFromJSON(json);
             var answer_server = connection.Post(request, content);
-            if (!answer_server.Successful)
-                return AnswerServer<string>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<string>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            //Разница лишь в том что туть мы ответом отправляем контент формата "STRING" который прислал нам сервер
-            return connection.ReadAnswerString(answer_server.Answer.Content);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
         }
 
         public AnswerServer<string> WriteGenerateArray(string start_array)
@@ -76,11 +67,8 @@ namespace WebAppClient
             var json = new { start_array = start_array };
             var content = GetContentFromJSON(json);
             var answer_server = connection.Post(request, content);
-            if (!answer_server.Successful)
-                return AnswerServer<string>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<string>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            return connection.ReadAnswerString(answer_server.Answer.Content);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
         }
 
         public AnswerServer<string> AddValueStart(int value)
@@ -88,12 +76,9 @@ namespace WebAppClient
             string request = "/add_value_start";
             var json = new { value = value };
             var content = GetContentFromJSON(json);
-            var answer_server = connection.Post(request, content);
-            if (!answer_server.Successful)
-                return AnswerServer<string>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<string>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            return connection.ReadAnswerString(answer_server.Answer.Content);
+            var answer_server = connection.Patch(request, content);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
         }
 
         public AnswerServer<string> AddValueFinish(int value)
@@ -101,12 +86,9 @@ namespace WebAppClient
             string request = "/add_value_finish";
             var json = new { value = value };
             var content = GetContentFromJSON(json);
-            var answer_server = connection.Post(request, content);
-            if (!answer_server.Successful)
-                return AnswerServer<string>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<string>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            return connection.ReadAnswerString(answer_server.Answer.Content);
+            var answer_server = connection.Patch(request, content);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
         }
 
         public AnswerServer<string> AddValueIndex(int value, int index)
@@ -114,69 +96,65 @@ namespace WebAppClient
             string request = "/add_value_index";
             var json = new { value = value, index = index };
             var content = GetContentFromJSON(json);
-            var answer_server = connection.Post(request, content);
-            if (!answer_server.Successful)
-                return AnswerServer<string>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<string>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            return connection.ReadAnswerString(answer_server.Answer.Content);
+            var answer_server = connection.Patch(request, content);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
         }
 
         public AnswerServer<string> GiveArray()
         {
             string request = "/give_array";
             var answer_server = connection.Get(request);
-            if (!answer_server.Successful)
-                return AnswerServer<string>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<string>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            return connection.ReadAnswerString(answer_server.Answer.Content);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
         }
 
         public AnswerServer<string> GiveCombSort()
         {
             string request = "/give_combsort";
-            var answer_server = connection.Post(request);
-            if (!answer_server.Successful)
-                return AnswerServer<string>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<string>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            return connection.ReadAnswerString(answer_server.Answer.Content);
+            var answer_server = connection.Get(request);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
+        }
+
+        public AnswerServer<string> GetHistory()
+        {
+            string request = "/get_history";
+            var answer_server = connection.Get(request);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
+        }
+
+        public AnswerServer<string> DelHistory()
+        {
+            string request = "/del_history";
+            var answer_server = connection.Delete(request);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
         }
 
         public AnswerServer<string> GiveCombSortIndex(int start_index, int finish_index)
         {
-            string request = "/give_combsort_index";
-            var json = new { start_index = start_index, finish_index = finish_index };
-            var content = GetContentFromJSON(json);
-            var answer_server = connection.Post(request, content);
-            if (!answer_server.Successful)
-                return AnswerServer<string>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<string>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            return connection.ReadAnswerString(answer_server.Answer.Content);
+            string request = $"/give_combsort_index?start_index={start_index}&finish_index={finish_index}";
+            var answer_server = connection.Get(request); //Ошибка при Get
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
         }
 
         public AnswerServer<string> WriteCombSort()
         {
             string request = "/write_combsort";
             var answer_server = connection.Post(request);
-            if (!answer_server.Successful)
-                return AnswerServer<string>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<string>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            return connection.ReadAnswerString(answer_server.Answer.Content);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
         }
 
         public AnswerServer<string> DelArray()
         {
             string request = "/del_array";
-            var answer_server = connection.Post(request);
-            if (!answer_server.Successful)
-                return AnswerServer<string>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<string>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            return connection.ReadAnswerString(answer_server.Answer.Content);
+            var answer_server = connection.Delete(request);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
         }
 
         public AnswerServer<string> NewPassword(string new_password)
@@ -185,11 +163,28 @@ namespace WebAppClient
             var json = new { new_password = new_password };
             var content = GetContentFromJSON(json);
             var answer_server = connection.Post(request, content);
-            if (!answer_server.Successful)
-                return AnswerServer<string>.Error(answer_server);
-            if (!answer_server.Answer!.IsSuccessStatusCode)
-                return AnswerServer<string>.Error($"Is not success status code ({answer_server.Answer.StatusCode})");
-            return connection.ReadAnswerString(answer_server.Answer.Content);
+            var checkErr = CheckError<string>(answer_server);
+            return checkErr ?? connection.ReadAnswerString(answer_server.Answer!.Content);
+        }
+
+        private AnswerServer<T>? CheckError<T>(AnswerServer<HttpResponseMessage> answer)
+        {
+            //Тут ловятся ошибки об проблемах в соединении с сервером
+            if (!answer.Successful)
+                //Тут эта ошибка просто отправляется как результат
+                return AnswerServer<T>.Error(answer);
+            //Тут ловится ошибка связанная с неверным кодом ответа, всё что не 200 (успех - successeful)
+            if (!answer.Answer!.IsSuccessStatusCode)
+            {
+                //Туть мы считываем сообщение об ошибке от сервера
+                var msg = connection.ReadAnswerString(answer.Answer!.Content).Answer;
+                msg = string.IsNullOrEmpty(msg) ? "not msg" : msg;
+                //Тута считываем какой код прислал сервер
+                var code = (int)answer.Answer.StatusCode;
+                //Тут мы должны лапками об этом написать, что код не 2XX и выдать сообщение от сервера
+                return AnswerServer<T>.Error($"Is not success status code {code}, message: {msg}");
+            }
+            return null;
         }
 
         //Тут мы форматируем куку для того чтобы её можно было нормально посмотреть с консоли

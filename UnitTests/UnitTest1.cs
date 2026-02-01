@@ -1,3 +1,5 @@
+using WebAppTest;
+
 namespace UnitTests;
 
 [TestClass]
@@ -6,7 +8,12 @@ public class UnitTest1
     [TestMethod]
     public void TestRandomGenerateArray()
     {
-        
+        const int LOWER_BORDER = 0;
+        const int UPPER_BORDER = 10;
+        const int COUNT = 5;
+
+        int[] result = RandomGenerateArray(LOWER_BORDER, UPPER_BORDER, COUNT);
+
     }
 
     // [TestMethod]

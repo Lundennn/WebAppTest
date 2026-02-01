@@ -5,7 +5,7 @@ namespace WebAppClient
         /// <summary>
         /// Хост для подключения к серверу
         /// </summary>
-        const string DEFAULT_SERVER_URL = "http://localhost:5000";
+        const string DEFAULT_SERVER_URL = "http://localhost:5114";
         /// <summary>
         /// Апи с доступным функционалом (Ядро)
         /// </summary>
@@ -17,7 +17,7 @@ namespace WebAppClient
         public App()
         {
             Console.WriteLine("Ok!");
-            Console.WriteLine("Введите URL сервера (http://localhost:5000 - по умолчанию)");
+            Console.WriteLine($"Введите URL сервера ({DEFAULT_SERVER_URL} - по умолчанию)");
 
             string? server_url = Console.ReadLine();
             
@@ -112,10 +112,14 @@ namespace WebAppClient
             string? password = Console.ReadLine();
             Console.WriteLine("======================================");
 
-            var res = Api.SingUpOnServer(username!, password!);
+            var r = Api.SingUpOnServer(username!, password!);
 
-            Console.WriteLine("Генерация массива выполнена: " + (res.Successful? "Успешно" : "Неверно"));
-            Console.WriteLine(res.Answer);
+            if (!r.Successful)
+            {
+                Console.WriteLine($"Ошибка: {r.ErrorData!.Message}");
+                MenuStart();
+                return;
+            }
             MenuStart();
         }
 
@@ -138,7 +142,8 @@ namespace WebAppClient
             Console.WriteLine("   9. Сорт. массив в базе данных      ");
             Console.WriteLine("   10. Удалить массив                 ");
             Console.WriteLine("   11. Просмотр истории запросов      ");
-            Console.WriteLine("   12. Смена пароля                   ");
+            Console.WriteLine("   12. Удалить историю запросов       ");
+            Console.WriteLine("   13. Смена пароля                   ");
             Console.WriteLine("   0. Вернуться                       ");
             Console.WriteLine("======================================");
 
@@ -164,9 +169,10 @@ namespace WebAppClient
 
                 var res = Api.RandomGenerateArray(low, up, count);
 
-                Console.WriteLine("Генерация массива выполнена: " + (res.Successful? "Успешно" : "Неверно"));
+                Console.WriteLine("Генерация массива выполнена: " + CheckErr(res));
                 Console.WriteLine(res.Answer);
                 Menu();
+                return;
             }
             else if (menuGlobal_value == "3") //Ручной ввод массива
             {
@@ -178,9 +184,10 @@ namespace WebAppClient
 
                 var res = Api.WriteGenerateArray(start_array);
 
-                Console.WriteLine("Запись массива выполнена: " + (res.Successful? "Успешно" : "Неверно"));
+                Console.WriteLine("Запись массива выполнена: " + CheckErr(res));
                 Console.WriteLine(res.Answer);
                 Menu();
+                return;
             }
             else if (menuGlobal_value == "4") //Добавить элемент в начало
             {
@@ -189,9 +196,10 @@ namespace WebAppClient
 
                 var res = Api.AddValueStart(value);
 
-                Console.WriteLine("Добавление числа выполнено: " + (res.Successful? "Успешно" : "Неверно"));
+                Console.WriteLine("Добавление числа выполнено: " + CheckErr(res));
                 Console.WriteLine(res.Answer);
                 Menu();
+                return;
             }
             else if (menuGlobal_value == "5") //Добавить элемент в конец
             {
@@ -200,9 +208,10 @@ namespace WebAppClient
 
                 var res = Api.AddValueFinish(value);
 
-                Console.WriteLine("Добавление числа выполнено: " + (res.Successful? "Успешно" : "Неверно"));
+                Console.WriteLine("Добавление числа выполнено: " + CheckErr(res));
                 Console.WriteLine(res.Answer);
                 Menu();
+                return;
             }
             else if (menuGlobal_value == "6") //Добавить элемент после индекса
             {
@@ -211,17 +220,19 @@ namespace WebAppClient
 
                 var res = Api.AddValueFinish(value);
 
-                Console.WriteLine("Добавление числа выполнено: " + (res.Successful? "Успешно" : "Неверно"));
+                Console.WriteLine("Добавление числа выполнено: " + CheckErr(res));
                 Console.WriteLine(res.Answer);
                 Menu();
+                return;
             }
             else if (menuGlobal_value == "7") //Сортировать массив локально
             {
                 var res = Api.GiveCombSort();
 
-                Console.WriteLine("Локальная сортировка массива выполнена: " + (res.Successful? "Успешно" : "Неверно"));
+                Console.WriteLine("Локальная сортировка массива выполнена: " + CheckErr(res));
                 Console.WriteLine(res.Answer);
                 Menu();
+                return;
             }
             else if (menuGlobal_value == "8") //Сортировать часть массива локально
             {
@@ -231,49 +242,72 @@ namespace WebAppClient
                 int finish_index = int.Parse(Console.ReadLine()!);
                 var res = Api.GiveCombSortIndex(start_index, finish_index);
 
-                Console.WriteLine("Локальная сортировка массива выполнена: " + (res.Successful? "Успешно" : "Неверно"));
+                Console.WriteLine("Локальная сортировка массива выполнена: " + CheckErr(res));
                 Console.WriteLine(res.Answer);
                 Menu();
+                return;
             }
             else if (menuGlobal_value == "9") //Сортировать массив в базе данных
             {
                 var res = Api.WriteCombSort();
 
-                Console.WriteLine("Сортировка массива в базе данных выполнена: " + (res.Successful? "Успешно" : "Неверно"));
+                Console.WriteLine("Сортировка массива в базе данных выполнена: " + CheckErr(res));
                 Console.WriteLine(res.Answer);
                 Menu();
+                return;
             }
             else if (menuGlobal_value == "10") //Удалить массив
             {
                 var res = Api.DelArray();
 
-                Console.WriteLine("Удаление массива выполнено: " + (res.Successful? "Успешно" : "Неверно"));
+                Console.WriteLine("Удаление массива выполнено: " + CheckErr(res));
                 Console.WriteLine(res.Answer);
                 Menu();
+                return;
             }
             else if (menuGlobal_value == "11") //Просмотр истории запросов
             {
-                ; //Now
+                var res = Api.GetHistory();
+                
+                Console.WriteLine("Просмотр истории выполнен: " + CheckErr(res));
+                Console.WriteLine(res.Answer);
+                Menu();
+                return;
             }
-            else if (menuGlobal_value == "12") //Смена пароля
+            else if (menuGlobal_value == "12") //Удалить историю запросов
+            {
+                var res = Api.DelHistory();
+
+                Console.WriteLine("Удаление истории выполнено: " + CheckErr(res));
+                Console.WriteLine(res.Answer);
+                Menu();
+                return;
+            }
+            else if (menuGlobal_value == "13") //Смена пароля
             {
                 Console.Write("   Введите новый пароль: ");
                 string? new_password = Console.ReadLine();
 
                 var res = Api.NewPassword(new_password!);
 
-                Console.WriteLine("Смена пароля выполнена: " + (res.Successful? "Успешно" : "Неверно"));
+                Console.WriteLine("Смена пароля выполнена: " + CheckErr(res));
                 Console.WriteLine(res.Answer);
+                Menu();
+                return;
             }
             else if (menuGlobal_value == "0") //Вернуться
             {
                 MenuStart();
+                return;
             }
             else
             {
                 Console.WriteLine("Ошибка: Данного пункта меню не существует. \nСделайте выбор снова");
                 Menu();
+                return;
             }
+            string CheckErr<T>(AnswerServer<T> res)
+                =>res.Successful? "Успешно" : $"C ошибкой \"{res.ErrorData!.Message}\"";
         }
 
 
