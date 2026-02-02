@@ -5,7 +5,7 @@ namespace WebAppClient
         /// <summary>
         /// Хост для подключения к серверу
         /// </summary>
-        const string DEFAULT_SERVER_URL = "http://localhost:5114";
+        const string DEFAULT_SERVER_URL = "http://localhost:5000";
         /// <summary>
         /// Апи с доступным функционалом (Ядро)
         /// </summary>
@@ -217,8 +217,10 @@ namespace WebAppClient
             {
                 Console.Write("   Введите число: ");
                 int value = int.Parse(Console.ReadLine()!);
+                Console.Write("   Введите индекс: ");
+                int index = int.Parse(Console.ReadLine()!);
 
-                var res = Api.AddValueFinish(value);
+                var res = Api.AddValueIndex(value, index);
 
                 Console.WriteLine("Добавление числа выполнено: " + CheckErr(res));
                 Console.WriteLine(res.Answer);
