@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace WebAppClient
 {
-    internal class API_server
+    public class API_server
     {
         private Connection connection;
         public API_server(Uri uri)
@@ -17,7 +17,7 @@ namespace WebAppClient
             connection = new Connection(uri);
         }
 
-        public AnswerServer<bool> LoginOnServer(string username, string password)
+        public AnswerServer<bool> LoginOnServer(string username, string password, bool showCookies = true)
         {
             //Тут пишешь запрос
             string request = "/login";
@@ -31,11 +31,15 @@ namespace WebAppClient
             var checkErr = CheckError<bool>(answer_server);
             if (checkErr != null) return checkErr;
 
-            //Тут мы выводим на экран усе куки
-            Console.WriteLine("All cookies:");
-            foreach (var item in connection.GetAllCookies())
-                //Тут мы форматируем куку, чтобы можно было её увидеть в консоле
-                Console.WriteLine(CookieToSting(item));
+            //Выводим куки если нужно
+            if(showCookies)
+            {
+                //Тут мы выводим на экран усе куки
+                Console.WriteLine("All cookies:");
+                foreach (var item in connection.GetAllCookies())
+                    //Тут мы форматируем куку, чтобы можно было её увидеть в консоле
+                    Console.WriteLine(CookieToSting(item));
+            }
             //Усё, отправляем что мы молодцы и сделали усё правильно
             return AnswerServer<bool>.Ok(true);
         }

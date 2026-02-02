@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../WebAppTest/WebAppTest.csproj" />
+    <ProjectReference Include="..\WebAppClient\WebAppClient.csproj" />
   </ItemGroup>
 
 </Project>

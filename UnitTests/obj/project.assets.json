@@ -710,6 +710,16 @@
           }
         }
       },
+      "WebAppClient/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/WebAppClient.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WebAppClient.dll": {}
+        }
+      },
       "WebAppTest/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -1728,6 +1738,11 @@
         "version.txt"
       ]
     },
+    "WebAppClient/1.0.0": {
+      "type": "project",
+      "path": "../WebAppClient/WebAppClient.csproj",
+      "msbuildProject": "../WebAppClient/WebAppClient.csproj"
+    },
     "WebAppTest/1.0.0": {
       "type": "project",
       "path": "../WebAppTest/WebAppTest.csproj",
@@ -1739,6 +1754,7 @@
       "MSTest.TestAdapter >= 3.0.4",
       "MSTest.TestFramework >= 3.0.4",
       "Microsoft.NET.Test.Sdk >= 17.6.0",
+      "WebAppClient >= 1.0.0",
       "WebAppTest >= 1.0.0",
       "coverlet.collector >= 6.0.0"
     ]
@@ -1776,6 +1792,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+            "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppClient\\WebAppClient.csproj": {
+              "projectPath": "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppClient\\WebAppClient.csproj"
+            },
             "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppTest\\WebAppTest.csproj": {
               "projectPath": "H:\\!Вяч\\WEB Development\\Course work\\WebAppTest\\WebAppTest\\WebAppTest.csproj"
             }

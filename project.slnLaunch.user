@@ -11,6 +11,11 @@
         "Path": "WebAppTest\\WebAppTest.csproj",
         "Action": "Start",
         "DebugTarget": "http"
+      },
+      {
+        "Path": "UnitTests\\UnitTests.csproj",
+        "Action": "Start",
+        "DebugTarget": "UnitTests"
       }
     ]
   }

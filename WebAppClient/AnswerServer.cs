@@ -11,7 +11,7 @@ namespace WebAppClient
     /// Ответ от сервера
     /// </summary>
     /// <typeparam name="T">Тип ответа</typeparam>
-    internal class AnswerServer<T> : IAnswerServer_Error
+    public class AnswerServer<T> : IAnswerServer_Error
     {
         /// <summary>
         /// Создать текстовую ошибку
@@ -72,7 +72,7 @@ namespace WebAppClient
         public CustomException(string message)
             : base(message) { }
     }
-    internal interface IAnswerServer_Error
+    public interface IAnswerServer_Error
     {
         /// <summary>
         /// Успешность
