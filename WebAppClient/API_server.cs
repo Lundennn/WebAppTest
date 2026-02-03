@@ -19,28 +19,28 @@ namespace WebAppClient
 
         public AnswerServer<bool> LoginOnServer(string username, string password, bool showCookies = true)
         {
-            //Тут пишешь запрос
+            //Запрос
             string request = "/login";
-            //Тут пишешь данные к запросу в формате json
+            //Данные к запросу в формате json
             var json = new { username = username, password = password };
-            //Тут оно превращается в объект которые понимает Post
+            //Объект который понимает Post
             var content = GetContentFromJSON(json);
-            //Тут синхронно выполняется Post запрос к серверу
+            //Синхронное выполняется Post запроса к серверу
             var answer_server = connection.Post(request, content);
 
             var checkErr = CheckError<bool>(answer_server);
             if (checkErr != null) return checkErr;
 
-            //Выводим куки если нужно
+            //Выводим куки
             if(showCookies)
             {
-                //Тут мы выводим на экран усе куки
+                //Выводим на экран все куки
                 Console.WriteLine("All cookies:");
                 foreach (var item in connection.GetAllCookies())
-                    //Тут мы форматируем куку, чтобы можно было её увидеть в консоле
+                    //Форматируем куки, чтобы можно было увидеть их в консоле
                     Console.WriteLine(CookieToSting(item));
             }
-            //Усё, отправляем что мы молодцы и сделали усё правильно
+            //Отправляем ответ
             return AnswerServer<bool>.Ok(true);
         }
         
@@ -56,7 +56,6 @@ namespace WebAppClient
 
         public AnswerServer<string> RandomGenerateArray(int low, int up, int count)
         {
-            //Туть усё в целом всё тоже самое
             string request = "/random_generate_array";
             var json = new { low = low, up = up, count = count };
             var content = GetContentFromJSON(json);
@@ -173,29 +172,24 @@ namespace WebAppClient
 
         private AnswerServer<T>? CheckError<T>(AnswerServer<HttpResponseMessage> answer)
         {
-            //Тут ловятся ошибки об проблемах в соединении с сервером
             if (!answer.Successful)
-                //Тут эта ошибка просто отправляется как результат
                 return AnswerServer<T>.Error(answer);
-            //Тут ловится ошибка связанная с неверным кодом ответа, всё что не 200 (успех - successeful)
+
             if (!answer.Answer!.IsSuccessStatusCode)
             {
-                //Туть мы считываем сообщение об ошибке от сервера
                 var msg = connection.ReadAnswerString(answer.Answer!.Content).Answer;
                 msg = string.IsNullOrEmpty(msg) ? "not msg" : msg;
-                //Тута считываем какой код прислал сервер
                 var code = (int)answer.Answer.StatusCode;
-                //Тут мы должны лапками об этом написать, что код не 2XX и выдать сообщение от сервера
                 return AnswerServer<T>.Error($"Is not success status code {code}, message: {msg}");
             }
             return null;
         }
 
-        //Тут мы форматируем куку для того чтобы её можно было нормально посмотреть с консоли
+        //Форматирование для того чтобы её можно было нормально посмотреть с консоли
         private string CookieToSting(Cookie cookie)
             => $"{cookie.Name} (Path:\"{cookie.Path}\") value: {cookie.Value}";
 
-        //Тут мы превращаем объекты в JSON формат и запихиваем в формат "StringContent", чтобы он был как контент
+        //Преобразование объектов в JSON формат и запихиваем в формат "StringContent", чтобы он был как контент
         private StringContent GetContentFromJSON<T>(T json_data)
         {
             string jsonBody = JsonSerializer.Serialize(json_data);

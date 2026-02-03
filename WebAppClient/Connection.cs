@@ -63,6 +63,7 @@ namespace WebAppClient
                 return AnswerServer<HttpResponseMessage>.Error(ex);
             }
         }
+        
         /// <summary>
         /// POST request
         /// </summary>
@@ -80,6 +81,7 @@ namespace WebAppClient
                 return AnswerServer<HttpResponseMessage>.Error(ex);
             }
         }
+
         /// <summary>
         /// async POST request
         /// </summary>
@@ -110,6 +112,7 @@ namespace WebAppClient
             try { return PatchAsync(uri, content).Result; }
             catch (Exception ex) { return AnswerServer<HttpResponseMessage>.Error(ex); }
         }
+
         /// <summary>
         /// async PATCH request
         /// </summary>
@@ -128,6 +131,7 @@ namespace WebAppClient
                 return AnswerServer<HttpResponseMessage>.Error(ex);
             }
         }
+
         /// <summary>
         /// DELETE request
         /// </summary>
@@ -138,6 +142,7 @@ namespace WebAppClient
             try { return DeleteAsync(uri, token).Result; }
             catch (Exception ex) { return AnswerServer<HttpResponseMessage>.Error(ex); }
         }
+
         /// <summary>
         /// async DELETE request
         /// </summary>
@@ -156,6 +161,7 @@ namespace WebAppClient
                 return AnswerServer<HttpResponseMessage>.Error(ex);
             }
         }
+
         public AnswerServer<string> ReadAnswerString(HttpContent httpContent)
         {
             try
@@ -167,6 +173,7 @@ namespace WebAppClient
                 return AnswerServer<string>.Error(ex);
             }
         }
+
         public async Task<AnswerServer<string>> ReadAnswerStringAsync(HttpContent httpContent)
         {
             try
@@ -179,6 +186,7 @@ namespace WebAppClient
                 return AnswerServer<string>.Error(ex);
             }
         }
+
         public List<Cookie> GetAllCookies()
         {
             var response_Cookies = cookies.GetAllCookies();

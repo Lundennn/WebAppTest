@@ -20,6 +20,6 @@ namespace WebAppClient
             App app = new App();
             app.Start();
         }
-}
+    }
 }
 

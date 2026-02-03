@@ -4,7 +4,7 @@
     namespace RequestStructures
     {
         /// <summary>
-        /// Для генераторации случайного масива
+        /// Для генерации случайного массива
         /// </summary>
         public struct Random_Generate_Array
         {
@@ -55,6 +55,7 @@
             public string username { get; set; }
             public string password { get; set; }
         }
+        
         /// <summary>
         /// Данные пользователя
         /// </summary>
@@ -62,11 +63,5 @@
         {
             public string new_password { get; set; }
         }
-
-        //struct Borders
-        //{
-        //    public int low { get; set; }
-        //    public int up { get; set; }
-        //}
     }
 }

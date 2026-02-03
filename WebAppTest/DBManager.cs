@@ -320,29 +320,5 @@ namespace WebAppTest
                 return false;
             }
         }
-        // public bool UpdateArray(string login, int[] ints)
-        // {
-        //     if (!CheckConnect) return false;
-        //     string json = "null";
-        //     if(ints != null && ints.Length != 0)
-        //         json = System.Text.Json.JsonSerializer.Serialize(ints);
-        //     string REQUEST = $"UPDATE users SET array_data = '{json}' WHERE Login = '{login}';";
-        //     var command = new SqliteCommand(REQUEST, connection);
-
-        //     try
-        //     {
-        //         var reader = command.ExecuteReader();
-
-        //         if (reader.HasRows)
-        //             return true;
-        //         else
-        //             return false;
-        //     }
-        //     catch (Exception exp)
-        //     {
-        //         Console.WriteLine(exp.Message);
-        //         return false;
-        //     }
-        // }
     }
 }

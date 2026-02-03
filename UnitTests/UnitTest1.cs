@@ -34,7 +34,7 @@ namespace UnitTests
             Assert.IsTrue(result.Successful, result.ErrorData?.Message);
             Assert.IsNotNull(result.Answer, "Answer is null");
             (bool is_numb, bool lower, bool upper)[] conditions = result.Answer.Trim('[',']').Split(',')
-            .Select((string item)=>(int.TryParse(item, out int i), LOWER_BORDER<=i, UPPER_BORDER>i)).ToArray();                     // (string "15") => ((bool is int "true"), (bool 15>=lower "true"), (bool 15<upper "true"))=>(true,true,true)
+            .Select((string item)=>(int.TryParse(item, out int i), LOWER_BORDER<=i, UPPER_BORDER>i)).ToArray(); // (string "15") => ((bool is int "true"), (bool 15>=lower "true"), (bool 15<upper "true"))=>(true,true,true)
             Assert.IsTrue(conditions.All(((bool is_numb, bool, bool) item)=> item.is_numb), "Ошибка преобразование массива");
             Assert.IsTrue(conditions.All(((bool, bool lower, bool upper) item)=>item.lower==item.upper==true), "Выход за границы");
         }
