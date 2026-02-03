@@ -14,7 +14,7 @@ namespace WebAppTest
         static public int Main(string[] args)
         {
             #region CONFIG
-            const string DB_PATH = "H:/!Вяч/WEB Development/database/users-db";
+            const string DB_PATH = "H:/!Вяч/WEB Development/database/users-db"; //Путь к базе данных
             #endregion CONFIG
 
 

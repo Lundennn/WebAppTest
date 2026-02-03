@@ -160,142 +160,250 @@ namespace WebAppClient
             }
             else if (menuGlobal_value == "2") //Генерация массива
             {
-                Console.Write("   Введите нижнюю границу выбора чисел: ");
-                int low = int.Parse(Console.ReadLine()!);
-                Console.Write("   Введите верхнюю границу выбора чисел: ");
-                int up = int.Parse(Console.ReadLine()!);
-                Console.Write("   Введите количество чисел: ");
-                int count = int.Parse(Console.ReadLine()!);
+                try 
+                {
+                    Console.Write("   Введите нижнюю границу выбора чисел: ");
+                    int low = int.Parse(Console.ReadLine()!);
+                    Console.Write("   Введите верхнюю границу выбора чисел: ");
+                    int up = int.Parse(Console.ReadLine()!);
+                    Console.Write("   Введите количество чисел: ");
+                    int count = int.Parse(Console.ReadLine()!);
 
-                var res = Api.RandomGenerateArray(low, up, count);
+                    var res = Api.RandomGenerateArray(low, up, count);
 
-                Console.WriteLine("Генерация массива выполнена: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                    Console.WriteLine("Генерация массива выполнена: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "3") //Ручной ввод массива
             {
-                Console.WriteLine("   Введите массив чисел отделяя их пробелом");
-                Console.WriteLine("   Пример: 6 12 24 35 77");
-                Console.WriteLine("   Неверный символ автоматически заменяется на 0");
-                Console.Write("   Введите массив чисел: ");
-                string start_array = Console.ReadLine()!;
+                try 
+                {
+                    Console.WriteLine("   Введите массив чисел отделяя их пробелом");
+                    Console.WriteLine("   Пример: 6 12 24 35 77");
+                    Console.WriteLine("   Неверный символ автоматически заменяется на 0");
+                    Console.Write("   Введите массив чисел: ");
+                    string start_array = Console.ReadLine()!;
 
-                var res = Api.WriteGenerateArray(start_array);
+                    var res = Api.WriteGenerateArray(start_array);
 
-                Console.WriteLine("Запись массива выполнена: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                    Console.WriteLine("Запись массива выполнена: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "4") //Добавить элемент в начало
             {
-                Console.Write("   Введите число: ");
-                int value = int.Parse(Console.ReadLine()!);
+                try 
+                {
+                    Console.Write("   Введите число: ");
+                    int value = int.Parse(Console.ReadLine()!);
 
-                var res = Api.AddValueStart(value);
+                    var res = Api.AddValueStart(value);
 
-                Console.WriteLine("Добавление числа выполнено: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                    Console.WriteLine("Добавление числа выполнено: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "5") //Добавить элемент в конец
             {
-                Console.Write("   Введите число: ");
-                int value = int.Parse(Console.ReadLine()!);
+                try 
+                {
+                    Console.Write("   Введите число: ");
+                    int value = int.Parse(Console.ReadLine()!);
 
-                var res = Api.AddValueFinish(value);
+                    var res = Api.AddValueFinish(value);
 
-                Console.WriteLine("Добавление числа выполнено: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                    Console.WriteLine("Добавление числа выполнено: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "6") //Добавить элемент после индекса
             {
-                Console.Write("   Введите число: ");
-                int value = int.Parse(Console.ReadLine()!);
-                Console.Write("   Введите индекс: ");
-                int index = int.Parse(Console.ReadLine()!);
+                try 
+                {
+                    Console.Write("   Введите число: ");
+                    int value = int.Parse(Console.ReadLine()!);
+                    Console.Write("   Введите индекс: ");
+                    int index = int.Parse(Console.ReadLine()!);
 
-                var res = Api.AddValueIndex(value, index);
+                    var res = Api.AddValueIndex(value, index);
 
-                Console.WriteLine("Добавление числа выполнено: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                    Console.WriteLine("Добавление числа выполнено: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "7") //Сортировать массив локально
             {
-                var res = Api.GiveCombSort();
+                try 
+                {
+                    var res = Api.GiveCombSort();
 
-                Console.WriteLine("Локальная сортировка массива выполнена: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                    Console.WriteLine("Локальная сортировка массива выполнена: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "8") //Сортировать часть массива локально
             {
-                Console.Write("   Введите первый индекс: ");
-                int start_index = int.Parse(Console.ReadLine()!);
-                Console.Write("   Введите второй индекс: ");
-                int finish_index = int.Parse(Console.ReadLine()!);
-                var res = Api.GiveCombSortIndex(start_index, finish_index);
+                try 
+                {
+                    Console.Write("   Введите первый индекс: ");
+                    int start_index = int.Parse(Console.ReadLine()!);
+                    Console.Write("   Введите второй индекс: ");
+                    int finish_index = int.Parse(Console.ReadLine()!);
+                    var res = Api.GiveCombSortIndex(start_index, finish_index);
 
-                Console.WriteLine("Локальная сортировка массива выполнена: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                    Console.WriteLine("Локальная сортировка массива выполнена: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "9") //Сортировать массив в базе данных
             {
-                var res = Api.WriteCombSort();
+                try 
+                {
+                    var res = Api.WriteCombSort();
 
-                Console.WriteLine("Сортировка массива в базе данных выполнена: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                    Console.WriteLine("Сортировка массива в базе данных выполнена: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "10") //Удалить массив
             {
-                var res = Api.DelArray();
+                try 
+                {
+                    var res = Api.DelArray();
 
-                Console.WriteLine("Удаление массива выполнено: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                    Console.WriteLine("Удаление массива выполнено: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "11") //Просмотр истории запросов
             {
-                var res = Api.GetHistory();
-                
-                Console.WriteLine("Просмотр истории выполнен: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                try 
+                {
+                    var res = Api.GetHistory();
+                    
+                    Console.WriteLine("Просмотр истории выполнен: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "12") //Удалить историю запросов
             {
-                var res = Api.DelHistory();
+                try 
+                {
+                    var res = Api.DelHistory();
 
-                Console.WriteLine("Удаление истории выполнено: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                    Console.WriteLine("Удаление истории выполнено: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "13") //Смена пароля
             {
-                Console.Write("   Введите новый пароль: ");
-                string? new_password = Console.ReadLine();
+                try 
+                {
+                    Console.Write("   Введите новый пароль: ");
+                    string? new_password = Console.ReadLine();
 
-                var res = Api.NewPassword(new_password!);
+                    var res = Api.NewPassword(new_password!);
 
-                Console.WriteLine("Смена пароля выполнена: " + CheckErr(res));
-                Console.WriteLine(res.Answer);
-                Menu();
-                return;
+                    Console.WriteLine("Смена пароля выполнена: " + CheckErr(res));
+                    Console.WriteLine(res.Answer);
+                    Menu();
+                    return;
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine($"Ошибка: {exp}");
+                    Menu();
+                    return;
+                }
             }
             else if (menuGlobal_value == "0") //Вернуться
             {
@@ -311,97 +419,5 @@ namespace WebAppClient
             string CheckErr<T>(AnswerServer<T> res)
                 =>res.Successful? "Успешно" : $"C ошибкой \"{res.ErrorData!.Message}\"";
         }
-
-
-
-
-
-
-
-        public void StartTest()
-        {
-            const string def_server = "http://localhost:5000";
-            Api = new API_server(new Uri(def_server));
-
-
-            const string username = "user222";
-            const string password = "password222";
-
-            var r = Api.LoginOnServer(username, password);
-            if (!r.Successful)
-            {
-                Console.WriteLine($"Error: {r.ErrorData!.Message}");
-                return;
-            }
-            Console.WriteLine("Мы зачикинились)\n");
-
-            var res = Api.RandomGenerateArray(88, 99, 5);
-            Console.WriteLine("Random generate arr operation is " + (res.Successful? "successful" : "error"));
-            Console.WriteLine(res.Answer);
-            Console.WriteLine("Мы зачикинились)\n");
-
-            string text = "88 99 5 33 44";
-            res = Api.WriteGenerateArray(text);
-            Console.WriteLine("Write arr operation is " + (res.Successful ? "successful" : "error"));
-            Console.WriteLine(res.Answer);
-            Console.WriteLine("Мы зачикинились)\n");
-
-            //const int len = 5;
-            //var rand = $"{new Random().Next(0, 10^len)}".PadRight(len, '0');
-            //string username_rand = "user_" + rand;
-            //string password_rand = "pwd_" + rand;
-
-            //r = api.SingUpOnServer(username, password);
-            //if (!r.Successful)
-            //{
-            //    Console.WriteLine($"Error: {r.ErrorData!.Message}");
-            //    return;
-            //}
-            //Console.WriteLine("Мы зачикинили нового юзера)");
-
-        }
-
-
-
-        /*
-        static string GetRandomWoParams()
-        {
-            string request = "/random";
-            var response = client.GetAsync(request).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                return response.Content.ReadAsStringAsync().Result;
-            }
-            else
-            {
-                return "Данные не доступны";
-            }
-        }
-
-        static string GetRandomWoJson(string _low, string _up)
-        {
-            string request = "/random_params_json";
-
-            var json_data = new
-            {
-                low = int.Parse(_low),
-                up = int.Parse(_up)
-            };
-            string jsonBody = JsonSerializer.Serialize(json_data);
-            var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
-            var response = client.PostAsync(request, content).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                return response.Content.ReadAsStringAsync().Result;
-            }
-            else
-            {
-                return "Данные не доступны";
-            }
-        }
-        
-
-        */
     }
 }
